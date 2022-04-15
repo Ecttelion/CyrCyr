@@ -1,13 +1,6 @@
-﻿using ConsoleGameEngine.Core.GameObjects;
-using ConsoleGameEngine.Core.Input;
-using ConsoleGameEngine.Core.Math;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ConsoleGameEngine.Core.Input;
 
-namespace Cyrilusconsolus.Games.Cyrilus
+namespace Cyrilusconsolus.Games.Cyrilus.Entity
 {
     public class ProgressBar
     {
@@ -29,7 +22,7 @@ namespace Cyrilusconsolus.Games.Cyrilus
         public void Update(float elapsedTime, KeyboardInput input)
         {
             Text = "";
-            var percent = Value * CharCount / Max ;
+            var percent = Value * CharCount / Max;
             for (int i = 0; i < CharCount; i++)
             {
                 if (i > percent)

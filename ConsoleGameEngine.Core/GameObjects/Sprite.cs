@@ -1,6 +1,6 @@
+using ConsoleGameEngine.Core.Math;
 using System;
 using System.Linq;
-using ConsoleGameEngine.Core.Math;
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace ConsoleGameEngine.Core.GameObjects
@@ -17,7 +17,7 @@ namespace ConsoleGameEngine.Core.GameObjects
 
         public float Width => Size.X;
         public float Height => Size.Y;
-        
+
         public Rect Bounds => new(Position, Size);
 
         public Sprite(string gfx, ConsoleColor fgColor = ConsoleColor.White, ConsoleColor bgColor = ConsoleColor.Black)
@@ -36,9 +36,9 @@ namespace ConsoleGameEngine.Core.GameObjects
             }
 
             Size = new Vector(width, height);
-                        
+
             _glyphs = new char[width * height];
-            
+
             for (int i = 0; i < splitGfx.Length; i++)
             {
                 for (int j = 0; j < splitGfx[i].Length; j++)
@@ -46,10 +46,10 @@ namespace ConsoleGameEngine.Core.GameObjects
                     _glyphs[i * width + j] = splitGfx[i][j];
                 }
             }
-            
+
             _fgColors = new ConsoleColor[_glyphs.Length];
             _bgColors = new ConsoleColor[_glyphs.Length];
-            
+
             SetSpriteColor(fgColor);
             SetSpriteBackground(bgColor);
         }
@@ -59,11 +59,11 @@ namespace ConsoleGameEngine.Core.GameObjects
             Size = spr.Size;
             Position = spr.Position;
             Velocity = spr.Velocity;
-            
+
             _glyphs = new char[spr._glyphs.Length];
             _fgColors = new ConsoleColor[_glyphs.Length];
             _bgColors = new ConsoleColor[_glyphs.Length];
-            
+
             for (int i = 0; i < spr.Height; i++)
             {
                 for (int j = 0; j < spr.Width; j++)
@@ -74,7 +74,7 @@ namespace ConsoleGameEngine.Core.GameObjects
                 }
             }
         }
-        
+
         public void SetSpriteColor(ConsoleColor color)
         {
             for (int i = 0; i < _fgColors.Length; i++)
@@ -82,7 +82,7 @@ namespace ConsoleGameEngine.Core.GameObjects
                 _fgColors[i] = color;
             }
         }
-        
+
         public void SetSpriteBackground(ConsoleColor color)
         {
             for (int i = 0; i < _fgColors.Length; i++)
@@ -93,14 +93,14 @@ namespace ConsoleGameEngine.Core.GameObjects
 
         public char GetGlyph(Vector pos)
         {
-            return GetGlyph((int) pos.X, (int) pos.Y);
+            return GetGlyph((int)pos.X, (int)pos.Y);
         }
-        
+
         public char GetGlyph(int x, int y)
         {
             if (x < 0 || x >= Width || y < 0 || y >= Height)
                 return ' ';
-            
+
             return _glyphs[y * (int)Width + x];
         }
 
@@ -123,7 +123,7 @@ namespace ConsoleGameEngine.Core.GameObjects
 
             return _fgColors[index];
         }
-        
+
         public ConsoleColor GetBgColor(int index)
         {
             if (index < 0 || index >= _bgColors.Length)
@@ -133,20 +133,20 @@ namespace ConsoleGameEngine.Core.GameObjects
 
             return _bgColors[index];
         }
-        
+
         public ConsoleColor GetFgColor(int x, int y)
         {
             if (x < 0 || x >= Width || y < 0 || y >= Height)
                 return ConsoleColor.Black;
-            
+
             return _fgColors[y * (int)Width + x];
         }
-        
+
         public ConsoleColor GetBgColor(int x, int y)
         {
             if (x < 0 || x >= Width || y < 0 || y >= Height)
                 return ConsoleColor.Black;
-            
+
             return _bgColors[y * (int)Width + x];
         }
 
@@ -162,14 +162,14 @@ namespace ConsoleGameEngine.Core.GameObjects
                 return;
             }
 
-            _glyphs[y * (int) Width + x] = c;
+            _glyphs[y * (int)Width + x] = c;
         }
 
         public void SetFgColor(Vector pos, ConsoleColor c)
         {
             SetFgColor((int)pos.X, (int)pos.Y, c);
         }
-        
+
         public void SetFgColor(int x, int y, ConsoleColor c)
         {
             if (x < 0 || x >= Width || y < 0 || y >= Height)
@@ -177,14 +177,14 @@ namespace ConsoleGameEngine.Core.GameObjects
                 return;
             }
 
-            _fgColors[y * (int) Width + x] = c;
+            _fgColors[y * (int)Width + x] = c;
         }
 
         public void SetBgColor(Vector pos, ConsoleColor c)
         {
             SetBgColor((int)pos.X, (int)pos.Y, c);
         }
-        
+
         public void SetBgColor(int x, int y, ConsoleColor c)
         {
             if (x < 0 || x >= Width || y < 0 || y >= Height)
@@ -192,7 +192,7 @@ namespace ConsoleGameEngine.Core.GameObjects
                 return;
             }
 
-            _bgColors[y * (int) Width + x] = c;
+            _bgColors[y * (int)Width + x] = c;
         }
     }
 }

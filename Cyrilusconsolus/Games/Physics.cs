@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
 using ConsoleGameEngine.Core;
 using ConsoleGameEngine.Core.GameObjects;
 using ConsoleGameEngine.Core.Input;
 using ConsoleGameEngine.Core.Math;
 
-namespace ConsoleGameEngine.Runner.Games
+namespace Cyrilusconsolus.Games
 {
     // ReSharper disable once UnusedType.Global
     public class Physics : ConsoleGameEngineBase
@@ -24,7 +22,7 @@ namespace ConsoleGameEngine.Runner.Games
         private const ConsoleColor BG_COLOR = ConsoleColor.Black;
         private const ConsoleColor PLAYER_COLOR = ConsoleColor.White;
         private const ConsoleColor TRAIL_COLOR = ConsoleColor.Red;
-        
+
         private Sprite _player;
 
         private List<Vector> _trail;
@@ -37,7 +35,7 @@ namespace ConsoleGameEngine.Runner.Games
             InitConsole(160, 120);
             PerformanceModeEnabled = true;
         }
-        
+
         protected override bool Create()
         {
             var spriteGfx = string.Empty;
@@ -53,7 +51,7 @@ namespace ConsoleGameEngine.Runner.Games
             {
                 Position = new Vector(ScreenWidth / 2f, ScreenHeight / 2f)
             };
-            
+
             return true;
         }
 
@@ -61,8 +59,8 @@ namespace ConsoleGameEngine.Runner.Games
         {
             // Clear the screen each frame
             Fill(ScreenRect, ' ', bgColor: BG_COLOR);
-            
-            if(input.IsKeyHeld(KeyCode.Esc)) 
+
+            if (input.IsKeyHeld(KeyCode.Esc))
             {
                 // Close the game
                 return false;
@@ -102,12 +100,12 @@ namespace ConsoleGameEngine.Runner.Games
                         _player.Velocity = new Vector(0, _player.Velocity.Y);
                     }
                 }
-                
+
             }
-            
+
             // Gravity
             _player.Velocity += Vector.Down * GRAVITY * elapsedTime;
-            
+
             // Clamp to terminal velocity
             if (_player.Velocity.Y > TERMINAL_VELOCITY)
             {
@@ -116,9 +114,9 @@ namespace ConsoleGameEngine.Runner.Games
 
             // Calculate position based on velocity
             _player.Position += _player.Velocity * elapsedTime;
-            
+
             // Check for Collisions
-            if ((int)_player.Position.Y + _player.Height > ScreenHeight+1)
+            if ((int)_player.Position.Y + _player.Height > ScreenHeight + 1)
             {
                 _player.Position = new Vector(_player.Position.X, ScreenHeight - _player.Height);
                 _player.Velocity = new Vector(_player.Velocity.X, -_player.Velocity.Y * 0.9f);
@@ -134,7 +132,7 @@ namespace ConsoleGameEngine.Runner.Games
                 _player.Position = new Vector(ScreenWidth - _player.Width, _player.Position.Y);
                 _player.Velocity = new Vector(-_player.Velocity.X, _player.Velocity.Y);
             }
-            
+
             // Calculate Trail
             _trailCooldown -= elapsedTime;
             if (_trailCooldown < 0f)
@@ -143,27 +141,27 @@ namespace ConsoleGameEngine.Runner.Games
                 {
                     _trail.RemoveAt(0);
                 }
-                
+
                 _trail.Add(_player.Bounds.Center);
                 _trailCooldown = TRAIL_RESET_TIME;
             }
-            
+
             ////////////////////////
             // Draw trail and player
             for (int i = 0; i < _trail.Count; i++)
             {
                 var (x, y) = ((int)_trail[i].X, (int)_trail[i].Y);
-                
+
                 Draw(x, y, '*', TRAIL_COLOR, BG_COLOR);
             }
-            
+
             DrawSprite(_player);
 
             // HUD
-            DrawString(1,1, "INSTRUCTIONS", bgColor: BG_COLOR);
-            DrawString(1,3, "  LEFT/RIGHT: Move Player", bgColor: BG_COLOR);
-            DrawString(1,5, "  SPACE: Jump", bgColor: BG_COLOR);
-            DrawString(1,7, "  ESC: Exit Game", bgColor: BG_COLOR);
+            DrawString(1, 1, "INSTRUCTIONS", bgColor: BG_COLOR);
+            DrawString(1, 3, "  LEFT/RIGHT: Move Player", bgColor: BG_COLOR);
+            DrawString(1, 5, "  SPACE: Jump", bgColor: BG_COLOR);
+            DrawString(1, 7, "  ESC: Exit Game", bgColor: BG_COLOR);
 
             return true;
         }

@@ -1,9 +1,8 @@
-using System;
 using ConsoleGameEngine.Core;
 using ConsoleGameEngine.Core.Input;
 using ConsoleGameEngine.Core.Math;
 
-namespace ConsoleGameEngine.Runner.Games
+namespace Cyrilusconsolus.Games
 {
     public class LineTest : ConsoleGameEngineBase
     {
@@ -18,7 +17,7 @@ namespace ConsoleGameEngine.Runner.Games
 
         public LineTest()
         {
-            InitConsole(64,64);
+            InitConsole(64, 64);
         }
         protected override bool Create()
         {
@@ -46,13 +45,13 @@ namespace ConsoleGameEngine.Runner.Games
                 Fill(ScreenRect, ' ');
 
                 _end = new Vector(
-                    (float) Math.Cos(_degrees * Math.PI/180) * ScreenWidth * 0.5f,
-                    (float) Math.Sin(_degrees * Math.PI/180) * ScreenHeight * 0.5f);
+                    (float)Math.Cos(_degrees * Math.PI / 180) * ScreenWidth * 0.5f,
+                    (float)Math.Sin(_degrees * Math.PI / 180) * ScreenHeight * 0.5f);
 
                 _degrees++;
 
                 DrawLine(_start, _start + _end, ' ', bgColor: ConsoleColor.Red);
-                DrawString(0,0, $"Deg: {_degrees}");
+                DrawString(0, 0, $"Deg: {_degrees}");
             }
 
             return true;

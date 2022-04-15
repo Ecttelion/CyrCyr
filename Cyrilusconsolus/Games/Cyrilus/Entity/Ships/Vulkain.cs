@@ -1,20 +1,15 @@
 ﻿using ConsoleGameEngine.Core.GameObjects;
 using ConsoleGameEngine.Core.Input;
 using ConsoleGameEngine.Core.Math;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Cyrilusconsolus.Games.Cyrilus.Entity.Weapons.Ennemies;
 
-namespace Cyrilusconsolus.Games.Cyrilus.Entity
+namespace Cyrilusconsolus.Games.Cyrilus.Entity.Ships
 {
     public class Vulkain : Ship
     {
         #region Properties of the ship
 
-        public string Gfx { get; } = "                  :                  \n                 *#+                 \n                #%*@+                \n              .+@%*@@=               \n            .:#%%%*@%%+:             \n           :%%%%%%%%%%@%#            \n         .=#%@%#%%%%##%@%*-          \n      :+##@%%@%%#####%@@%%%#*=.      \n    .#%%%%@%%@%%%###%%%@%%@%%%%+     \n   .%%%%%%%#%@#%@%*%@%%@##@%%%%%*    \n   +@%%#%@%*%@%%@@@@%%%@##@%#%%%@:   \n  :%#@%+::+=#%@@@@%@@@@@+==:-*@%##   \n .###-       +. .--:. =-      .+%#*  \n #%+                            .*%= \n-#.                               =% \n-                                  .:\n";
-        public float AttackCoolDown { get; set; } = 1.2f;
+        public float AttackCoolDown { get; set; } = 1.8f;
 
 
         public ProgressBar ShieldBar { get; set; } = new();
@@ -35,16 +30,16 @@ namespace Cyrilusconsolus.Games.Cyrilus.Entity
 
         public Vulkain(CyrilusGamus game, int x) : base(game)
         {
-            //Gfx = gfx;
+            Gfx = "                  :                  \n                 *#+                 \n                #%*@+                \n              .+@%*@@=               \n            .:#%%%*@%%+:             \n           :%%%%%%%%%%@%#            \n         .=#%@%#%%%%##%@%*-          \n      :+##@%%@%%#####%@@%%%#*=.      \n    .#%%%%@%%@%%%###%%%@%%@%%%%+     \n   .%%%%%%%#%@#%@%*%@%%@##@%%%%%*    \n   +@%%#%@%*%@%%@@@@%%%@##@%#%%%@:   \n  :%#@%+::+=#%@@@@%@@@@@+==:-*@%##   \n .###-       +. .--:. =-      .+%#*  \n #%+                            .*%= \n-#.                               =% \n-                                  .:\n";
             Sprite = new Sprite(Gfx, ConsoleColor.Gray);
-            Sprite.Position =  new Vector(x, 0);
-
+            Sprite.Position = new Vector(x, 20);
             ShieldBar.CharCount = 10;
             VitalityBar.CharCount = 10;
         }
 
         public override void Update(float elapsedTime, KeyboardInput input)
         {
+            base.Update(elapsedTime, input);
 
             //cooldownattak
             if (_currentAttackCoolDown <= 0)
@@ -63,7 +58,7 @@ namespace Cyrilusconsolus.Games.Cyrilus.Entity
             ShieldBar.Value = CurrentShield;
             ShieldBar.Update(elapsedTime, input);
 
-            VitalityBar.Max = Vitality;
+            VitalityBar.Max = VitalityQty;
             VitalityBar.Value = CurrentVitality;
             VitalityBar.Update(elapsedTime, input);
         }

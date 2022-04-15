@@ -37,23 +37,23 @@ public static class Program
                     switch (value)
                     {
                         case 0:
-                            new ConsoleGameEngine.Runner.Games.LineTest().Start();
+                            new Cyrilusconsolus.Games.LineTest().Start();
                             Console.Clear();
                             break;
                         case 1:
-                            new ConsoleGameEngine.Runner.Games.Maze().Start();
+                            new Cyrilusconsolus.Games.Maze().Start();
                             Console.Clear();
                             break;
                         case 2:
-                            new ConsoleGameEngine.Runner.Games.Physics().Start();
+                            new Cyrilusconsolus.Games.Physics().Start();
                             Console.Clear();
                             break;
                         case 3:
-                            new ConsoleGameEngine.Runner.Games.Snake().Start();
+                            new Cyrilusconsolus.Games.Snake().Start();
                             Console.Clear();
                             break;
                         case 4:
-                            new ConsoleGameEngine.Runner.Games.Tetris().Start();
+                            new Cyrilusconsolus.Games.Tetris().Start();
                             Console.Clear();
                             break;
                         case 5:

@@ -1,14 +1,17 @@
-using System;
 using ConsoleGameEngine.Core;
-using ConsoleGameEngine.Core.GameObjects;
 using ConsoleGameEngine.Core.Input;
 using ConsoleGameEngine.Core.Math;
 using Cyrilusconsolus.Games.Cyrilus.Entity;
+using Cyrilusconsolus.Games.Cyrilus.Entity.Ships;
 
 namespace Cyrilusconsolus.Games.Cyrilus
 {
     public class CyrilusGamus : ConsoleGameEngineBase
     {
+
+        public const int ConsoleWidth = 383;
+        public const int ConsoleHeight = 131;
+        public const int ConsoleTextSize = 10;
 
         protected override string Name => "CyrilusGamus";
 
@@ -22,12 +25,13 @@ namespace Cyrilusconsolus.Games.Cyrilus
 
         public CyrilusGamus()
         {
-            InitConsole(383, 131, 11);
+            InitConsole(ConsoleWidth, ConsoleHeight, ConsoleTextSize);
 
             Ship = new(this);
         }
         protected override bool Create()
         {
+            Entities.Add(Ship);
             for (int i = 0; i < 7; i++)
             {
                 Entities.Add(new Vulkain(this, i * 55));
@@ -49,18 +53,33 @@ namespace Cyrilusconsolus.Games.Cyrilus
 
             //UPDATE GAME
 
-            Ship.Update(elapsedTime, input);
-            var tmpBullet = Entities.ToArray();
-            foreach (var item in tmpBullet)
+            var entities = Entities.ToArray();
+            var entitiesWS = Entities.Where(e => e is EntityWithSprite).Select(e => (EntityWithSprite)e).ToArray();
+            foreach (var item in entities)
             {
+                if (item is EntityWithSprite _item)
+                {
+                    _item.collisions.Clear();
+                    foreach (var item2 in entitiesWS)
+                    {
+                        if (_item == item2)
+                            continue;
+
+                        if (Rect.Intersect(_item.Sprite.Bounds, item2.Sprite.Bounds))
+                        {
+                            _item.collisions.Add(item2);
+                        }
+                    }
+                }
                 item.Update(elapsedTime, input);
+
+
                 if (item.Remove)
                     Entities.Remove(item);
             }
 
             //DRAW GAME
 
-            Ship.DrawLayer1(elapsedTime, input);
             foreach (var item in Entities)
             {
                 item.DrawLayer1(elapsedTime, input);
@@ -68,7 +87,6 @@ namespace Cyrilusconsolus.Games.Cyrilus
 
             //DRAW UI
 
-            Ship.DrawLayerUI(elapsedTime, input);
             foreach (var item in Entities)
             {
                 item.DrawLayerUI(elapsedTime, input);

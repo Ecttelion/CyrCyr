@@ -1,12 +1,11 @@
-using System;
-using System.Diagnostics;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using ConsoleGameEngine.Core.GameObjects;
 using ConsoleGameEngine.Core.Input;
 using ConsoleGameEngine.Core.Math;
 using ConsoleGameEngine.Core.Win32;
+using System;
+using System.Diagnostics;
+using System.Text;
+using System.Threading;
 
 
 namespace ConsoleGameEngine.Core
@@ -61,7 +60,7 @@ namespace ConsoleGameEngine.Core
         /// <param name="height">The desired Height of the console in rows (not pixels)</param>
         /// <param name="pixelSize">The size of each cell in pixels</param>
         /// <param name="targetFps">The target framerate the application should aim to achieve</param>
-        protected void InitConsole(int width, int height, short pixelSize = 8, int targetFps = 60 )
+        protected void InitConsole(int width, int height, short pixelSize = 8, int targetFps = 60)
         {
             if (!_isInit)
             {
@@ -74,16 +73,16 @@ namespace ConsoleGameEngine.Core
                 var maxWidth = Console.LargestWindowWidth - 1;
                 var maxHeight = Console.LargestWindowHeight - 1;
 
-                if (width  > maxWidth || height > maxHeight)
+                if (width > maxWidth || height > maxHeight)
                 {
-                    var widthRatio = (float) maxWidth / width;
-                    var heightRatio = (float) maxHeight / height;
+                    var widthRatio = (float)maxWidth / width;
+                    var heightRatio = (float)maxHeight / height;
 
                     // use whichever multiplier is smaller
                     var ratio = widthRatio < heightRatio ? widthRatio : heightRatio;
 
-                    width = (int) (width * ratio);
-                    height = (int) (height * ratio);
+                    width = (int)(width * ratio);
+                    height = (int)(height * ratio);
                 }
 
                 ScreenRect = new Rect(Vector.Zero, new Vector(width, height));
@@ -139,7 +138,7 @@ namespace ConsoleGameEngine.Core
                 _input.Update();
 
                 // Game Logic
-                if (!Update((float) elapsedTime / 1000f, _input))
+                if (!Update((float)elapsedTime / 1000f, _input))
                 {
                     _gameRunning = false;
                 }
@@ -190,7 +189,7 @@ namespace ConsoleGameEngine.Core
         /// </summary>
         public void Draw(int x, int y, char c, ConsoleColor fgColor = ConsoleColor.White, ConsoleColor bgColor = ConsoleColor.Black)
         {
-            if (x >= ScreenWidth  || x < 0 ||
+            if (x >= ScreenWidth || x < 0 ||
                 y >= ScreenHeight || y < 0)
             {
                 return;
@@ -205,7 +204,7 @@ namespace ConsoleGameEngine.Core
 
         public void Draw(int x, int y, char c, int fgColor, int bgColor)
         {
-            if (x >= ScreenWidth  || x < 0 ||
+            if (x >= ScreenWidth || x < 0 ||
                 y >= ScreenHeight || y < 0)
             {
                 return;
@@ -277,8 +276,8 @@ namespace ConsoleGameEngine.Core
         public void DrawLine(Vector start, Vector end, char c, ConsoleColor fgColor = ConsoleColor.White, ConsoleColor bgColor = ConsoleColor.Black)
         {
             DrawLine(
-                (int) start.X, (int) start.Y,
-                (int) end.X, (int) end.Y,
+                (int)start.X, (int)start.Y,
+                (int)end.X, (int)end.Y,
                 c, fgColor, bgColor);
         }
 
@@ -390,8 +389,8 @@ namespace ConsoleGameEngine.Core
         public void DrawString(Vector position, string msg, ConsoleColor fgColor = ConsoleColor.White, ConsoleColor bgColor = ConsoleColor.Black, bool centered = false)
         {
             DrawString(
-                (int) position.X,
-                (int) position.Y,
+                (int)position.X,
+                (int)position.Y,
                 msg,
                 fgColor,
                 bgColor,

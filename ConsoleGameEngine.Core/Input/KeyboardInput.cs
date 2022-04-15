@@ -8,10 +8,10 @@ namespace ConsoleGameEngine.Core.Input
     {
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         private static extern short GetAsyncKeyState(int keyCode);
-        
+
         private readonly bool[] _currentKeyState;
         private readonly bool[] _previousKeyState;
-        
+
         private readonly KeyState[] _keyStates;
 
         private readonly KeyCode[] _keys;
@@ -24,13 +24,13 @@ namespace ConsoleGameEngine.Core.Input
             _previousKeyState = new bool[256];
             _keyStates = new KeyState[256];
         }
-        
+
         /// <summary>
         /// Returns true if the given key was pressed in the current frame 
         /// </summary>
         public bool IsKeyDown(KeyCode k)
         {
-            return _keyStates[(int) k].IsDown;
+            return _keyStates[(int)k].IsDown;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace ConsoleGameEngine.Core.Input
         /// </summary>
         public bool IsKeyUp(KeyCode k)
         {
-            return _keyStates[(int) k].IsReleased;
+            return _keyStates[(int)k].IsReleased;
         }
 
         /// <summary>
@@ -46,16 +46,16 @@ namespace ConsoleGameEngine.Core.Input
         /// </summary>
         public bool IsKeyHeld(KeyCode k)
         {
-            return _keyStates[(int) k].IsHeld;
+            return _keyStates[(int)k].IsHeld;
         }
-        
+
         internal void Update()
         {
             // only loop through supported keys in the KeyCode enum
             for (int i = 0; i < _keys.Length; i++)
             {
-                var key = (int) _keys[i];
-                
+                var key = (int)_keys[i];
+
                 _currentKeyState[key] = IsKeyPressed(key);
 
                 _keyStates[key].IsDown = false;

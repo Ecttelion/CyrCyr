@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using ConsoleGameEngine.Core;
 using ConsoleGameEngine.Core.GameObjects;
 using ConsoleGameEngine.Core.Input;
 using ConsoleGameEngine.Core.Math;
 
-namespace ConsoleGameEngine.Runner.Games
+namespace Cyrilusconsolus.Games
 {
     using static Math;
-    
+
     // ReSharper disable once UnusedType.Global
     public class Maze : ConsoleGameEngineBase
     {
@@ -18,13 +15,13 @@ namespace ConsoleGameEngine.Runner.Games
         private const float TURN_SPEED = 2f;
         private const float MOVE_SPEED = 5.0f;
         private const float RAYCAST_STEP = 0.05f;
-        
+
         private Vector _playerPosition;
         private float _playerAngle;
-        
+
         private Vector PlayerFacingAngle => new(
-            (float) Sin(_playerAngle), 
-            (float) Cos(_playerAngle));
+            (float)Sin(_playerAngle),
+            (float)Cos(_playerAngle));
 
         private float _fieldOfView = 3.14159f / 4f; // 90 degree fov
         private Sprite _map;
@@ -34,7 +31,7 @@ namespace ConsoleGameEngine.Runner.Games
             PerformanceModeEnabled = true;
             InitConsole(160, 120, 8);
         }
-        
+
         protected override bool Create()
         {
             var map = "";
@@ -65,45 +62,45 @@ namespace ConsoleGameEngine.Runner.Games
         protected override bool Update(float elapsedTime, KeyboardInput input)
         {
             // handle input
-            if (input.IsKeyHeld(KeyCode.Left))  _playerAngle -= TURN_SPEED * elapsedTime;
+            if (input.IsKeyHeld(KeyCode.Left)) _playerAngle -= TURN_SPEED * elapsedTime;
             if (input.IsKeyHeld(KeyCode.Right)) _playerAngle += TURN_SPEED * elapsedTime;
-            
+
 
             if (input.IsKeyHeld(KeyCode.Up))
             {
                 _playerPosition += PlayerFacingAngle * MOVE_SPEED * elapsedTime;
 
-                if (_map.GetGlyph((int) _playerPosition.Rounded.X, (int) _playerPosition.Rounded.Y) == '#')
+                if (_map.GetGlyph((int)_playerPosition.Rounded.X, (int)_playerPosition.Rounded.Y) == '#')
                 {
                     _playerPosition -= PlayerFacingAngle * MOVE_SPEED * elapsedTime;
                 }
             }
-            
+
             if (input.IsKeyHeld(KeyCode.Down))
             {
                 _playerPosition -= PlayerFacingAngle * MOVE_SPEED * elapsedTime;
-                if (_map.GetGlyph((int) _playerPosition.Rounded.X, (int) _playerPosition.Rounded.Y) == '#')
+                if (_map.GetGlyph((int)_playerPosition.Rounded.X, (int)_playerPosition.Rounded.Y) == '#')
                 {
                     _playerPosition += PlayerFacingAngle * MOVE_SPEED * elapsedTime;
                 }
             }
-            
-            
-            
+
+
+
             // Basic raycast algorithm for each column on the screen
             for (int x = 0; x < ScreenWidth; x++)
             {
                 // Create ray vector
-                double rayAngle = (_playerAngle - _fieldOfView / 2.0f) + ((x / (double) ScreenWidth) * _fieldOfView);
+                double rayAngle = (_playerAngle - _fieldOfView / 2.0f) + ((x / (double)ScreenWidth) * _fieldOfView);
                 float distanceToWall = 0f;
                 float maxDepth = 16f;
                 bool hitWall = false;
                 bool hitBoundary = false;
 
-                var direction = new Vector((float) Sin(rayAngle), (float) Cos(rayAngle));
+                var direction = new Vector((float)Sin(rayAngle), (float)Cos(rayAngle));
 
                 // Calculate distance 
-                while (!hitWall && distanceToWall < maxDepth) 
+                while (!hitWall && distanceToWall < maxDepth)
                 {
                     distanceToWall += RAYCAST_STEP;
 
@@ -135,7 +132,7 @@ namespace ConsoleGameEngine.Runner.Games
                             {
                                 // Angle of corner to eye
                                 var cornerRay = new Vector(
-                                    testPos.Rounded.X + cornerX - _playerPosition.X, 
+                                    testPos.Rounded.X + cornerX - _playerPosition.X,
                                     testPos.Rounded.Y + cornerY - _playerPosition.Y);
 
                                 // TODO: formalize dot product in Vector Class
@@ -155,14 +152,14 @@ namespace ConsoleGameEngine.Runner.Games
                         if (Acos(boundaryRays[2].dotProduct) < fBound) hitBoundary = true;
                     }
                 }
-                
+
                 // Use distance to wall to determine ceiling and floor height for this column
                 // From the midpoint (height / 2), subtract an amount proportional to the distance of the wall
-                int ceiling = (int) (ScreenHeight / 2f - ScreenHeight / distanceToWall);
+                int ceiling = (int)(ScreenHeight / 2f - ScreenHeight / distanceToWall);
                 // Floor is mirror of ceiling
                 int floor = ScreenHeight - ceiling;
-                
-                
+
+
                 // Render column based on ceiling and floor values
                 for (int y = 0; y < ScreenHeight; y++)
                 {
@@ -185,7 +182,7 @@ namespace ConsoleGameEngine.Runner.Games
 
                         if (distanceToWall <= maxDepth / 4f)
                         {
-                            shade = fullShade; 
+                            shade = fullShade;
                             fgColor = ConsoleColor.Gray;
                             bgColor = ConsoleColor.White;
                         }
@@ -218,13 +215,13 @@ namespace ConsoleGameEngine.Runner.Games
                             fgColor = ConsoleColor.Black;
                             bgColor = ConsoleColor.Black;
                         }
-                        
+
                         Draw(x, y, shade, fgColor, bgColor);
                     }
                     else
                     {
                         float groundDistance = 1.0f - (y - ScreenHeight / 2.0f) / (ScreenHeight / 2.0f);
-                        
+
                         char emptyShade = '#';
                         char lightShade = 'X';
                         char mediumShade = '.';
@@ -237,24 +234,24 @@ namespace ConsoleGameEngine.Runner.Games
 
                         if (groundDistance <= 0.25f)
                         {
-                            shade = fullShade; 
+                            shade = fullShade;
                             fgColor = ConsoleColor.Green;
                             bgColor = ConsoleColor.Green;
-                            
+
                         }
                         else if (groundDistance <= 0.5f)
                         {
                             shade = darkShade;
                             fgColor = ConsoleColor.DarkGreen;
                             bgColor = ConsoleColor.Green;
-                            
+
                         }
                         else if (groundDistance <= 0.75f)
                         {
                             fgColor = ConsoleColor.Black;
                             bgColor = ConsoleColor.DarkGreen;
                             shade = mediumShade;
-                            
+
                         }
                         else if (groundDistance <= 0.9f)
                         {
@@ -272,11 +269,11 @@ namespace ConsoleGameEngine.Runner.Games
                     }
                 }
             }
-            
+
             // Draw HUD
             DrawSprite(_map);
             Draw(_map.Position + _playerPosition.Rounded, 'X', ConsoleColor.Red);
-            
+
             return !input.IsKeyDown(KeyCode.Esc);
         }
     }
