@@ -9,8 +9,8 @@ namespace Cyrilusconsolus.Games.Cyrilus.Entity.Weapons.Ennemies
     {
         #region Properties of the ship
 
-        public float Speed { get; } = 45;
-        public float DmgMultiplayer { get; } = 1f;
+        public float Speed { get; set; } = 45;
+        public float DmgMultiplayer { get; set; } = 1f;
         public Ship Shooter { get; }
 
         #endregion

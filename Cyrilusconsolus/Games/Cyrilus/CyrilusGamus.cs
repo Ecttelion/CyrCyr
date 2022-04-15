@@ -32,16 +32,22 @@ namespace Cyrilusconsolus.Games.Cyrilus
         protected override bool Create()
         {
             Entities.Add(Ship);
-            for (int i = 0; i < 7; i++)
-            {
-                Entities.Add(new Vulkain(this, i * 55));
-            }
+            //for (int i = 0; i < 7; i++)
+            //{
+            //    Entities.Add(new Vulkain(this, i * 55));
+            //}
+            Entities.Add(new Romulien(this, 20));
             return true;
         }
 
 
         protected override bool Update(float elapsedTime, KeyboardInput input)
         {
+            //if (Entities.Count == 1)
+            //{
+            //    Entities.Add(new Romulien(this, 20));
+            //}
+
             if (input.IsKeyHeld(KeyCode.Esc))
             {
                 return false;

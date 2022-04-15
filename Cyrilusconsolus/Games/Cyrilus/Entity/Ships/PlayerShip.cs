@@ -116,11 +116,10 @@ namespace Cyrilusconsolus.Games.Cyrilus.Entity.Ships
                 {
                     var ph = new Photon(Game, this);
 
-                    var CenterOfShooterPos = Sprite.Bounds.Center;
-                    var mouseOnConsolePos = MouseInput.GetMousePosition();
-                    ph.Dir = new Vector(mouseOnConsolePos.X - CenterOfShooterPos.X, mouseOnConsolePos.Y - CenterOfShooterPos.Y).Normalized;
-
-                    //ph.Speed = _random.Next(50, 1000);
+                    var shooterPos = Sprite.Bounds.Center;
+                    var targetPos = MouseInput.GetMousePosition();
+                    ph.Dir = new Vector(targetPos.X - shooterPos.X, targetPos.Y - shooterPos.Y).Normalized;
+                    
                     Game.Entities.Add(ph);
                     CurrentAttackCoolDown2 = AttackCoolDown2;
                 }
